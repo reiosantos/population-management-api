@@ -26,8 +26,8 @@ const envExists = (env) => {
 };
 
 const DATABASE_URL = process.env.NODE_ENV === 'test'
-	? process.env.SMS_TEST_DATABASE_URL
-	: process.env.SMS_DATABASE_URL;
+	? process.env.POPULATION_TEST_DATABASE_URL
+	: process.env.POPULATION_DATABASE_URL;
 
 const envVars = {
 	PORT: process.env.PORT || 5000,

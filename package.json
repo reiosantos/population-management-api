@@ -1,22 +1,22 @@
 {
-	"name": "sms-managent-api",
+	"name": "population-managent-api",
 	"version": "0.0.0",
 	"author": "reio santos",
 	"private": true,
 	"main": "app/index.js",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/reiosantos/sms-management-api.git"
+		"url": "git+https://github.com/reiosantos/population-management-api.git"
 	},
-	"homepage": "https://github.com/reiosantos/sms-management-api#readme",
+	"homepage": "https://github.com/reiosantos/population-management-api#readme",
 	"bugs": {
-		"url": "https://github.com/reiosantos/sms-management-api/issues"
+		"url": "https://github.com/reiosantos/population-management-api/issues"
 	},
 	"scripts": {
 		"serve": "nodemon --exec babel-node lib/app/server.js",
 		"build": "rimraf lib/ && babel ./ --out-dir lib/ --ignore ./node_modules",
 		"start": "NODE_ENV=production yarn run build && yarn run serve",
-		"start:dev": "NODE_ENV=development DEBUG=sms-management-api nodemon --exec babel-node app/server.js",
+		"start:dev": "NODE_ENV=development DEBUG=population-management-api nodemon --exec babel-node app/server.js",
 		"lint": "node_modules/.bin/eslint ./",
 		"test": "NODE_ENV=test mocha --require @babel/register --require dotenv/config --exit",
 		"test:coverage": "NODE_ENV=test npm run db:rollmigrate && nyc mocha --require @babel/register --require dotenv/config --exit",

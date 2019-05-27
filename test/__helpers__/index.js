@@ -2,7 +2,7 @@ import chai from 'chai';
 import server from '../../app';
 import ModelFactory from '../../app/models/models.factory';
 
-const SmsModel = ModelFactory.getModel('sms');
+const SmsModel = ModelFactory.getModel('location');
 const UserModel = ModelFactory.getModel('user');
 
 const deleteAllModals = async () => {

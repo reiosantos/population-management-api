@@ -3,7 +3,7 @@ import http from 'http';
 import app from '.';
 import env from '../config/environment';
 
-const logger = debug('sms-management-api');
+const logger = debug('population-management-api');
 const server = http.createServer(app);
 
 server.listen(env.PORT, () => {

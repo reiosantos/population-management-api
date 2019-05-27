@@ -24,20 +24,6 @@ module.exports = (sequelize, DataTypes) => {
 	}, {});
 	User.associate = (models) => {
 		// associations can be defined here
-		User.hasMany(models.Sms, {
-			foreignKey: 'senderId',
-			sourceKey: 'id',
-			onDelete: 'CASCADE',
-			onUpdate: 'CASCADE',
-			allowNull: false
-		});
-		User.hasMany(models.Sms, {
-			foreignKey: 'receiverId',
-			sourceKey: 'id',
-			onDelete: 'SET NULL',
-			onUpdate: 'CASCADE',
-			allowNull: false
-		});
 	};
 	return User;
 };

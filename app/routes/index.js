@@ -3,7 +3,7 @@ import { login, signup } from '../actions/auth';
 import Helpers from '../helpers';
 import UserMiddleware from '../middlewares/userMiddleware';
 import auth from './auth';
-import smsRouter from './sms';
+import locationRouter from './location';
 import userRouter from './users';
 
 const apiPrefix = '/api/v1';
@@ -19,7 +19,7 @@ const routes = (app) => {
 			Helpers.returnErrors,
 			signup)
 		.use(apiPrefix, auth.required, auth.addUserData, userRouter)
-		.use(apiPrefix, auth.required, auth.addUserData, smsRouter)
+		.use(apiPrefix, auth.required, auth.addUserData, locationRouter)
 
 		.use((err, req, res, next) => {
 			if (err.name === 'UnauthorizedError') {

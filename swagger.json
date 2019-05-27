@@ -2,13 +2,13 @@
 	"swagger": "2.0",
 	"info": {
 		"termsOfService": "http://swagger.io/terms/",
-		"description": "A simple SMS API",
+		"description": "A simple Population API",
 		"contact": {
 			"name": "API Support",
-			"url": "http://sms-management-api.com/support",
+			"url": "http://population-management-api.com/support",
 			"email": "ronireiosantos@gmail.com"
 		},
-		"title": "SMS management API docs",
+		"title": "Population management API docs",
 		"version": "1.0"
 	},
 	"basePath": "/api/v1",
@@ -183,13 +183,13 @@
 				}
 		}
 		},
-		"/sms": {
+		"/location": {
 			"get": {
-				"description": "Returns a list of all sms messages of a user",
+				"description": "Returns a list of all location messages of a user",
 				"produces": ["application/json"],
 				"responses": {
 					"200": {
-						"$ref": "#/definitions/SmsList"
+						"$ref": "#/definitions/LocationList"
 					},
 					"401": {
 						"$ref": "#/definitions/UnauthorizedError"
@@ -197,16 +197,16 @@
 				}
 			},
 			"post": {
-				"description": "Creates a new sms to be sent to a user",
+				"description": "Creates a new location to be sent to a user",
 				"consumes": ["application/json"],
 				"parameters": [
 					{
-						"$ref": "#/parameters/sms"
+						"$ref": "#/parameters/location"
 					}
 				],
 				"responses": {
 					"201": {
-						"$ref": "#/definitions/CreateSms"
+						"$ref": "#/definitions/CreateLocation"
 					},
 					"400": {
 						"$ref": "#/definitions/BadRequestError"
@@ -217,26 +217,26 @@
 				}
 			}
 		},
-		"/sms/{smsId}": {
+		"/location/{locationId}": {
 			"get": {
-				"description": "Returns a single SMS",
+				"description": "Returns a single Location",
 				"produces": ["application/json"],
 				"parameters": [
 					{
 						"type": "string",
 						"in": "path",
-						"name": "smsId",
+						"name": "locationId",
 						"required": true
 					}
 				],
 				"responses": {
 					"200": {
-						"description": "A single SMS",
+						"description": "A single Location",
 						"schema": {
 							"type": "object",
 							"properties": {
 								"record": {
-									"$ref": "#/definitions/Sms"
+									"$ref": "#/definitions/Location"
 								}
 							}
 						}
@@ -249,20 +249,46 @@
 					}
 				}
 			},
-			"delete": {
-				"description": "Delete a single SMS",
+			"put": {
+				"description": "Returns a single Updated location",
 				"produces": ["application/json"],
 				"parameters": [
 					{
 						"type": "string",
 						"in": "path",
-						"name": "smsId",
+						"name": "locationId",
+						"required": true
+					},
+					{
+						"$ref": "#/parameters/location"
+					}
+				],
+				"responses": {
+					"202": {
+						"$ref": "#/definitions/CreateLocation"
+					},
+					"400": {
+						"$ref": "#/definitions/BadRequestError"
+					},
+					"401": {
+						"$ref": "#/definitions/UnauthorizedError"
+					}
+				}
+			},
+			"delete": {
+				"description": "Delete a single Location",
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"type": "string",
+						"in": "path",
+						"name": "locationId",
 						"required": true
 					}
 				],
 				"responses": {
 					"204": {
-						"description": "A single Sms Object"
+						"description": "A single Location Object"
 					},
 					"400": {
 						"$ref": "#/definitions/BadRequestError"
@@ -337,28 +363,34 @@
 				}
 			}
 		},
-		"sms": {
+		"location": {
 			"in": "body",
 			"name": "Message Details",
-			"description": "SMS data",
+			"description": "Location data",
 			"schema": {
 				"type": "object",
 				"required": [
-					"message",
-					"contact"
+					"name",
+					"males",
+					"females"
 				],
 				"properties": {
-					"message": {
+					"name": {
 						"type": "string"
 					},
-					"contact": {
+					"females": {
+						"type": "number",
+						"format": "integer"
+					},
+					"males": {
 						"type": "number",
 						"format": "integer"
 					}
 				},
 				"example": {
-					"message": "I am sending this",
-					"contact": "1234567890"
+					"name": "Nansana",
+					"males": "120",
+					"females": "20"
 				}
 			}
 		}
@@ -397,13 +429,6 @@
 				"password": {
 					"type": "string",
 					"format": "password"
-				},
-				"Sms": {
-					"type": "array",
-					"items": {
-						"type": "object",
-						"$ref": "#/definitions/Sms"
-					}
 				}
 			},
 			"example": {
@@ -413,11 +438,10 @@
 				"contact": "1234567890",
 				"updatedAt": "2019-05-24T12:58:43.702Z",
 				"createdAt": "2019-05-24T12:58:43.702Z",
-				"password": "this_is_very_secret",
-				"Sms": []
+				"password": "this_is_very_secret"
 			}
 		},
-		"Sms": {
+		"Location": {
 			"type": "object",
 			"properties": {
 				"id": {
@@ -425,29 +449,16 @@
 					"readOnly": true,
 					"format": "uuid"
 				},
-				"message": {
+				"name": {
 					"type": "string"
 				},
-				"status": {
-					"type": "string"
+				"males": {
+					"type": "number",
+					"format": "integer"
 				},
-				"sentOn": {
-					"type": "string",
-					"format": "date-time",
-					"readOnly": true
-				},
-				"receiverId": {
-					"type": "string",
-					"format": "uuid"
-				},
-				"senderId": {
-					"type": "string",
-					"format": "uuid"
-				},
-				"receivedOn": {
-					"type": "string",
-					"format": "date-time",
-					"readOnly": true
+				"females": {
+					"type": "number",
+					"format": "integer"
 				},
 				"updatedAt": {
 					"type": "string",
@@ -458,37 +469,27 @@
 					"type": "string",
 					"format": "date-time",
 					"readOnly": true
-				},
-				"receiver": {
-					"$ref": "#/definitions/User"
-				},
-				"sender": {
-					"$ref": "#/definitions/User"
 				}
 			},
 			"example": {
 				"id": "b98a2e05-ecab-4e24-89fd-1f0225996beb",
-				"sentOn": "2019-05-20T08:39:09.440Z",
-				"receiverId": "75ba2d2c-7eac-4c1f-8d00-ad429794fee0",
-				"senderId": "75ba2d2c-7eac-4c1f-8d00-ad429794fee0",
-				"message": "I am sending this",
-				"status": "Delivered",
+				"name": "Kampala",
+				"males": "233",
+				"females": "130",
 				"updatedAt": "2019-05-20T08:39:09.440Z",
-				"createdAt": "2019-05-20T08:39:09.440Z",
-				"receiver": {},
-				"sender": {}
+				"createdAt": "2019-05-20T08:39:09.440Z"
 			}
 		},
-		"CreateSms": {
+		"CreateLocation": {
 			"readOnly": true,
 			"type": "object",
 			"properties": {
 				"record": {
-					"$ref": "#/definitions/Sms"
+					"$ref": "#/definitions/Location"
 				}
 			}
 		},
-		"SmsList": {
+		"LocationList": {
 			"readOnly": true,
 			"type": "object",
 			"properties": {
@@ -498,13 +499,13 @@
 						"sent": {
 							"type": "array",
 							"items": {
-								"$ref": "#/definitions/Sms"
+								"$ref": "#/definitions/Location"
 							}
 						},
 						"received": {
 							"type": "array",
 							"items": {
-								"$ref": "#/definitions/Sms"
+								"$ref": "#/definitions/Location"
 							}
 						}
 					}
